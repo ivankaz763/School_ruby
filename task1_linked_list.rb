@@ -67,9 +67,9 @@ class List
 
         if @head == nil
             @head = El.new(data)
-        elsif num <= 0
+        elsif num < 0
             return puts "not valid index"
-        elsif num == 1
+        elsif num == 0
             curr_head = El.new(data)
             curr_head.next = @head
             @head = curr_head
