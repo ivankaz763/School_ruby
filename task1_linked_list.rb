@@ -65,20 +65,27 @@ class List
 
     def insert(data, num)
 
+        len = 1 
+        el = @head
+        while (el = el.next) do
+            len += 1
+        end
+        puts len
+
         if @head == nil
             @head = El.new(data)
-        elsif num <= 0
+        elsif num < 0 or num > len 
             return puts "not valid index"
-        elsif num == 1
+        elsif num == 0
             curr_head = El.new(data)
             curr_head.next = @head
             @head = curr_head
         else
             current = @head
             before_current = @head 
-            index = num -1
+            index = num - 1
             index.times do 
-                before_current = current.next
+                before_current = before_current.next
             end
             num.times do 
                 current = current.next
