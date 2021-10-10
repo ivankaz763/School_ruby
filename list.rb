@@ -70,8 +70,6 @@ class List
         while (el = el.next) do
             len += 1
         end
-        puts len
-
         if @head == nil
             @head = El.new(data)
         elsif num < 0 or num > len 
@@ -104,10 +102,11 @@ class List
             current = current.next
             count += 1
         end
-        if count = num 
+        if num > count or num < 0
+            return puts "not valid index"
+        elsif count = num 
             return current.data
         end
-        return "not valid index"
     end
 
     def remove(num)
@@ -118,10 +117,14 @@ class List
             after_current = after_current.next
             count += 1
         end
-        if count == num
+        if num == 0
+            @head = @head.next
+        elsif count == num
             current.next = after_current.next
         end
-        return "not valid index"
+        if num > count or num < 0
+            return puts "not valid index"
+        end   
     end
 
 end
