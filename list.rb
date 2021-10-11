@@ -97,7 +97,10 @@ class List
 
     def get(num)
         count = 0
-        current = @head 
+        current = @head
+        if @head == nil
+            return puts "not valid index"
+        end
         while current.next != nil and count != num
             current = current.next
             count += 1
