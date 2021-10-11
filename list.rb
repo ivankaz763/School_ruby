@@ -54,13 +54,13 @@ class List
     end
 
     def count 
-        res = 1
+        elem_count = 1
         el = @head 
         return 0 if @head == nil
         while (el = el.next) do
-            res += 1
+            elem_count += 1
         end
-        return res
+        return elem_count
     end
 
     def insert(data, num)
