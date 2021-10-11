@@ -28,7 +28,7 @@ class List
 
     def prepend(data)
         if @head == nil
-            @haed = El.new(data)
+            @head = El.new(data)
         else
             curr_head = El.new(data)
             curr_head.next = @head
