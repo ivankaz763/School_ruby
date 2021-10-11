@@ -132,32 +132,6 @@ class List
 
 end
 
-# l = List.new
-
-# puts "создали пустой список"
-# l.print
-# l.append("items 1")
-# puts "добвили элемен 1"
-# l.print
-# l.append("items 2")
-# puts "добвили элемен 2"
-# l.print
-# l.prepend("items 0")
-# puts "добвили элемен 0 на первое место"
-# l.print
-# puts "добвили элемен 1.5 на второе место"
-# l.insert("items 1.5", 2)
-# l.print
-# puts "значение элемена с индексом 2"
-# puts l.get(2)
-# puts "удалили второй элемент"
-# l.remove(2)
-# l.print
-# puts "колличество"
-# puts l.count
-# puts "значение элемена с индексом 2"
-# puts l.get(2)
-
 l = List.new
 
 
