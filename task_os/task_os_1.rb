@@ -1,14 +1,14 @@
 ppid = Process.pid
 child_pid = fork do
     Signal.trap("USR1") do
-        puts "Hello world! sent from child process #{$$}"
+        $stdout.syswrite("Hello world! sent from child process #{$$}\n")
         Process.kill("USR2", ppid)
         exit
     end
 end
   
 Signal.trap("USR2") do 
-    puts "Bye) sent from parent process #{$$}"
+    $stdout.syswrite("Bye) sent from parent process #{$$}\n")
 end
   
 Process.kill("USR1", child_pid)
