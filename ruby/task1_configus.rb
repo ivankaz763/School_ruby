@@ -24,7 +24,7 @@ class Configus
                 @inner_hash[name]
             else
                 # Записываем в хеш результат args по ключу name
-                @inner_hash[name] = args
+                @inner_hash[name] = args[0]
             end
         end
     end
@@ -33,10 +33,10 @@ class Configus
     def self.deep_merge(self_hash, other_hash)
       # цикл для всех пар ключ занчение 
       other_hash.inner_hash.each_pair do |key, value|
-        tv = self_hash.inner_hash[key]
+        temporary_value = self_hash.inner_hash[key]
         self_hash.inner_hash[key] =
-          if tv.is_a?(InHash) && value.is_a?(InHash)
-            deep_merge(tv, value)
+          if temporary_value.is_a?(InHash) && value.is_a?(InHash)
+            deep_merge(temporary_value, value)
           else
             value
           end
@@ -44,15 +44,15 @@ class Configus
       self_hash
     end
 
-    def self.config(environment, parent = nil, &block)
+    def self.config(environment, parent_environment = nil, &block)
         # Создаем инстанс хеша
         in_hash = InHash.new
         # Запускаем в нем наш хеш
         in_hash.instance_eval &block
 
         # Если нужно наследоваться 
-        if parent
-            parent_hash = in_hash.inner_hash[parent]
+        if parent_environment
+            parent_hash = in_hash.inner_hash[parent_environment]
             child_hash = in_hash.inner_hash[environment]
             deep_merge(parent_hash, child_hash)
         else 
@@ -86,6 +86,11 @@ config = Configus.config :staging, :production do
   p config.key2
   p config.group1.key3
   p config.group1.key4
+
+config.key1 === "value1"
+config.key2 === "newvalue2"
+config.group1.key3 === "value3"
+config.group1.key4 === "newvalue4"
 
 
 
