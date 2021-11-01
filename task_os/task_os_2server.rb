@@ -1,7 +1,12 @@
 require "socket"
 
-server = UNIXServer.new('/tmp/socket')
+File.delete('socket') if File.exists? 'socket'
+server = UNIXServer.new('socket')
 socket = server.accept
-puts socket.readline
-socket.write("pong | sent from parent (#{$$})\n")
+loop do
+    puts socket.readline
+    sleep 1
+    puts '____________'
+    socket.write("pong | sent from parent (#{$$})\n")
+end
 socket.close
