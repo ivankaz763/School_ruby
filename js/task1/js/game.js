@@ -1,10 +1,10 @@
 // игровое поле 
-var canvas = document.getElementById('game');
-var context = canvas.getContext('2d');
+const canvas = document.getElementById('game');
+const context = canvas.getContext('2d');
 // размер 1 клетки поля 
-var cell_size = 20;
+const cellSize = 20;
 // скорость игры 
-var game_speed = 0;
+var gameSpeed = 0;
 
 // параметры змейки
 var snake = {
@@ -12,16 +12,16 @@ var snake = {
   x: 200,
   y: 200,
   // скорость змейки 
-  x_speed: cell_size,
-  y_speed: 0,
+  xSpeed: cellSize,
+  ySpeed: 0,
   // тело змейки 
-  snake_body: [],
+  snakeBody: [],
   //длина тела змейки 
-  snake_body_length: 4
+  snakeBodyLength: 4
 };
 
 //координаты еды 
-var eat = {
+const eat = {
   x: 400,
   y: 400
 };
@@ -32,67 +32,69 @@ function getRandomInt(min, max) {
 }
 
 // если змейка достигла края поля 
-function snake_border() {
+function snakeBorder() {
   // Если змейка достигла края поля по горизонтали — продолжаем её движение с противоположной строны
   if (snake.x < 0) {
-    snake.x = canvas.width - cell_size;
+    snake.x = canvas.width - cellSize;
   }
-  else if (snake.x >= canvas.width) {
+  if (snake.x >= canvas.width) {
     snake.x = 0;
   }
   // Делаем то же самое для движения по вертикали
   if (snake.y < 0) {
-    snake.y = canvas.height - cell_size;
+    snake.y = canvas.height - cellSize;
   }
-  else if (snake.y >= canvas.height) {
+  if (snake.y >= canvas.height) {
     snake.y = 0;
   }
 }
 
 // обрабатываем столкновение змейки с самой собой 
-function snake_dead(index, cell_x, cell_y) {
-  for (var i = index + 1; i < snake.snake_body.length; i++) {
+function snakeDead(index, cell_x, cell_y) {
+  for (var i = index + 1; i < snake.snakeBody.length; i++) {
     // Если такие клетки есть — начинаем игру заново
-    if (cell_x === snake.snake_body[i].x && cell_y === snake.snake_body[i].y) {
+    if (cell_x === snake.snakeBody[i].x && cell_y === snake.snakeBody[i].y) {
       // Задаём стартовые параметры основным переменным
       snake.x = 160;
       snake.y = 160;
-      snake.snake_body = [];
-      snake.snake_body_length = 4;
-      snake.x_speed = cell_size;
-      snake.y_speed = 0;
+      snake.snakeBody = [];
+      snake.snakeBodyLength = 4;
+      snake.xSpeed = cellSize;
+      snake.ySpeed = 0;
       // Ставим еду в случайное место
-      eat.x = getRandomInt(0, 25) * cell_size;
-      eat.y = getRandomInt(0, 25) * cell_size;
+      eat.x = getRandomInt(0, 25) * cellSize;
+      eat.y = getRandomInt(0, 25) * cellSize;
     }
   }
 }
 
+function snakeEat(cellX, cellY) {
+  if (cellX === eat.x && cellY === eat.y) {
+    snake.snakeBodyLength++;
+    eat.x = getRandomInt(0, 25) * cellSize;
+    eat.y = getRandomInt(0, 25) * cellSize;
+  }
+}
+
 // передвидение змейки по полю
-function snake_move() {
+function snakeMove() {
   // двигаем змейку
-  snake.x += snake.x_speed;
-  snake.y += snake.y_speed;
-  snake_border (snake.x, snake.y)
+  snake.x += snake.xSpeed;
+  snake.y += snake.ySpeed;
+  snakeBorder (snake.x, snake.y)
   // добавлеям голову в начало тела змейки и после этого удаляем последний
-  snake.snake_body.unshift({ x: snake.x, y: snake.y });
-  if (snake.snake_body.length > snake.snake_body_length) {
-    snake.snake_body.pop();
+  snake.snakeBody.unshift({ x: snake.x, y: snake.y });
+  if (snake.snakeBody.length > snake.snakeBodyLength) {
+    snake.snakeBody.pop();
   }
   // каждое движение змейки мы рисуем 1 новый квадрат
   context.fillStyle = 'black';
   // для каждой клетки змейки
-  snake.snake_body.forEach(function (cell, index) {
+  snake.snakeBody.forEach(function (cell, index) {
     // рисуем квадрат
-    context.fillRect(cell.x, cell.y, cell_size - 2, cell_size - 2);
-    // если змейка съела еду то увеличиваем ее размер 
-    if (cell.x === eat.x && cell.y === eat.y) {
-      snake.snake_body_length++;
-      // рисуем новую еду
-      eat.x = getRandomInt(0, 25) * cell_size;
-      eat.y = getRandomInt(0, 25) * cell_size;
-    } 
-    snake_dead(index, cell.x, cell.y);
+    context.fillRect(cell.x, cell.y, cellSize - 2, cellSize - 2);
+    snakeEat(cell.x, cell.y);
+    snakeDead(index, cell.x, cell.y);
   });
 }
 
@@ -101,41 +103,42 @@ function game() {
   // замелдяем скоркость анимации
   requestAnimationFrame(game);
   // замедляем в 6 раза
-  if (++game_speed < 6) {
+  if (++gameSpeed < 6) {
     return;
   }
-  game_speed = 0;
+  gameSpeed = 0;
   // очищаем игровое поле 
   context.clearRect(0, 0, canvas.width, canvas.height);
   // Рисуем еду
-  context.fillStyle = 'black';
-  context.fillRect(eat.x, eat.y, cell_size - 2, cell_size - 2);
-  snake_move();
+  context.fillStyle = 'red';
+  context.fillRect(eat.x, eat.y, cellSize - 2, cellSize - 2);
+  snakeMove();
 }
 
-// обрабатываем нажатия клавиш 
-document.addEventListener('keydown', function (e) {
-  // Стрелка влево
-  if (e.which === 37 && snake.x_speed === 0) {
-    snake.x_speed = -cell_size;
-    snake.y_speed = 0;
-  }
-  // Стрелка вверх
-  else if (e.which === 38 && snake.y_speed === 0) {
-    snake.y_speed = -cell_size;
-    snake.x_speed = 0;
-  }
-  // Стрелка вправо
-  else if (e.which === 39 && snake.x_speed === 0) {
-    snake.x_speed = cell_size;
-    snake.y_speed = 0;
-  }
-  // Стрелка вниз
-  else if (e.which === 40 && snake.y_speed === 0) {
-    snake.y_speed = cell_size;
-    snake.x_speed = 0;
-  }
-});
+document.addEventListener("keydown", handleKeyPress);
+function handleKeyPress(event)
+{
+    // Стрелка влево
+    if (event.which === 37 && snake.xSpeed === 0) {
+      snake.xSpeed = -cellSize;
+      snake.ySpeed = 0;
+    }
+    // Стрелка вверх
+    if (event.which === 38 && snake.ySpeed === 0) {
+      snake.ySpeed = -cellSize;
+      snake.xSpeed = 0;
+    }
+    // Стрелка вправо
+    if (event.which === 39 && snake.xSpeed === 0) {
+      snake.xSpeed = cellSize;
+      snake.ySpeed = 0;
+    }
+    // Стрелка вниз
+    if (event.which === 40 && snake.ySpeed === 0) {
+      snake.ySpeed = cellSize;
+      snake.xSpeed = 0;
+    }
+}
     
 // Запускаем игру
 requestAnimationFrame(game);
