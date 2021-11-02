@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang = "ru">
+    <head>
+        <meta charset = "utf-8">
+        <title>task2_Promise</title>
+    </head>
+    <body>
+		<input id="buttonPromise" type="button" value="Promise">
+		<input id="buttonCallback" type="button" value="Callback">
+		<input id="buttonAsyncAwait" type="button" value="Async/await">
+		 <script>
+
+			function doPromise() {
+				return new Promise((resolve, reject) => {
+					console.log("Готово.");
+					if (Math.random() > .5) {
+						resolve("Успех")
+					} else {
+						reject("Ошибка")
+					}
+				})
+			}
+			function successCallback(result) {
+				alert("Успешно завершено с результатом " + result);
+			}
+			function failureCallback(error) {
+				alert("Завершено с ошибкой " + error);
+			}
+
+
+			function doCallback()
+			{
+				alert("А вот и callback")
+			}
+			function callBackCall(callback)
+			{
+				callback();
+			}
+
+			async function doAsyncAwait() {
+				let promise = new Promise((resolve, reject) => {
+					setTimeout(() => resolve("готово!"), 2000)
+				});
+				let result = await promise; // будет ждать, пока промис не выполнится (*)
+				alert(result); 
+			}
+
+			document.getElementById("buttonPromise").addEventListener( "click" , () => doPromise().then(successCallback, failureCallback));
+			document.getElementById("buttonCallback").addEventListener( "click" , () => callBackCall(doCallback));
+			document.getElementById("buttonAsyncAwait").addEventListener( "click" , () => doAsyncAwait());
+		 </script>
+    </body>
+
