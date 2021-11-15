@@ -1,0 +1,178 @@
+ps aux 
+
+USER               PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+marat            79549  33.6  0.1  4520352  17100   ??  U    Mon09PM   5:03.61 /S
+marat            94746   7.3  0.4  5455368  61576   ??  R    10:38PM   0:09.57 /A
+_windowserver      138   6.6  0.7  9128672 116196   ??  Ss   22Oct21 878:31.87 /S
+marat            92434   3.2  2.0  6604384 338104   ??  S    10:09PM   3:00.71 co
+marat              444   2.7  0.0  4512136   6620   ??  S    22Oct21   6:01.33 /S
+marat              549   1.9  0.0  4433868   4656   ??  S    22Oct21   0:26.42 /S
+marat              442   1.8  0.1  4608824  12344   ??  S    22Oct21   3:26.26 /S
+....................
+_____________________________________________________________________________________________
+top
+
+Processes: 611 total, 4 running, 607 sleeping, 2810 threads              22:52:50
+Load Avg: 2.26, 1.87, 1.87  CPU usage: 5.90% user, 4.86% sys, 89.23% idle
+SharedLibs: 427M resident, 56M data, 35M linkedit.
+MemRegions: 219244 total, 4728M resident, 102M private, 3181M shared.
+PhysMem: 16G used (2888M wired), 89M unused.
+VM: 6864G vsize, 2321M framework vsize, 85480192(0) swapins, 87645270(0) swapouts.
+Networks: packets: 78659682/93G in, 40957756/4026M out.
+Disks: 16235770/661G read, 12556717/461G written.
+
+PID    COMMAND      %CPU TIME     #TH   #WQ  #PORTS MEM    PURG   CMPRS  PGRP
+94746  iTerm2       22.7 00:12.50 10    7    349-   84M+   3992K- 17M-   94746
+138    WindowServer 17.4 14:38:39 12/1  4    10532+ 713M   3008K  228M   138
+97732  top          7.4  00:01.19 1/1   0    26     8564K+ 0B     0B     97732
+92434  com.docker.h 5.6  03:03.21 13    0    36     2484M  0B     109M   92380
+0      kernel_task  4.0  09:54:36 487/8 0    0      162M+  0B     0B     0
+371    sysmond      3.9  95:39.79 2     1    19     776K+  0B     212K   371
+....................
+_____________________________________________________________________________________________
+htop
+
+
+
+_____________________________________________________________________________________________
+ls -al 
+
+total 65592
+drwxr-xr-x+  99 marat  staff      3168 Nov 11 22:53 .
+drwxr-xr-x    7 root   admin       224 Jan  1  2020 ..
+-r--------    1 marat  staff         7 Apr 23  2020 .CFUserTextEncoding
+drwx------    2 marat  staff        64 Aug 15 12:36 .DDLocalBackups
+drwx------    2 marat  staff        64 Aug 15 12:36 .DDPreview
+-rw-r--r--@   1 marat  staff     22532 Nov 11 15:28 .DS_Store
+drwxr-xr-x    6 marat  staff       192 Apr 27  2020 .IdentityService
+drwxr-xr-x    3 marat  staff        96 Oct  3  2020 .Protege
+drwx------   71 marat  staff      2272 Nov  2 01:07 .Trash
+....................
+_____________________________________________________________________________________________
+netstat
+
+Active Internet connections
+Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp4       0      0  192.168.1.101.57682    93.186.225.208.https   ESTABLISHED
+tcp4       0     24  192.168.1.101.57679    dkblp1-vip-bx-00.http  LAST_ACK
+tcp4       0      0  192.168.1.101.57620    149.154.167.51.https   ESTABLISHED
+tcp4       0      0  192.168.1.101.57571    192.229.233.50.https   ESTABLISHED
+....................
+_____________________________________________________________________________________________
+nohup
+
+nohup grep ddos * > /home/captain/ddos.txt &
+....................
+_____________________________________________________________________________________________
+screen 
+
+marat@MacBook-Pro-Ivan ~ % screen -list
+There are screens on:
+        98603.ttys007.MacBook-Pro-Ivan  (Attached)
+        98581.ttys001.MacBook-Pro-Ivan  (Detached)
+        98592.pings_towards_1C  (Attached)
+3 Sockets in /tmp/uscreens/S-marat.
+_____________________________________________________________________________________________
+lsof 
+
+...................
+Code\x20H 60676 marat   13u   KQUEUE                                                    count=0, state=0
+Code\x20H 60676 marat   14      PIPE 0xa38064dbcef83e1c       16384                     ->0x66ee950faf556862
+Code\x20H 60676 marat   15      PIPE 0x66ee950faf556862       16384                     ->0xa38064dbcef83e1c
+Code\x20H 60676 marat   16      PIPE 0xb48570da163a1e58       16384                     ->0x88e578ea87822984
+Code\x20H 60676 marat   17      PIPE 0x88e578ea87822984       16384                     ->0xb48570da163a1e58
+Code\x20H 60676 marat   18u   KQUEUE                                                    count=0, state=0x12
+Code\x20H 60676 marat   19u   KQUEUE                                                    count=0, state=0xa
+Code\x20H 60676 marat   20      PIPE 0x216c6a67878c6b06       16384                     ->0xede4bcba7398d681
+Code\x20H 60676 marat   21      PIPE 0xede4bcba7398d681       16384                     ->0x216c6a67878c6b06
+Code\x20H 60676 marat   22      PIPE 0x65e4c7da62c99f96       16384                     ->0x85171bec7fc15844
+Code\x20H 60676 marat   23      PIPE 0x85171bec7fc15844       16384                     ->0x65e4c7da62c99f96
+Code\x20H 60676 marat   24r      CHR                3,2         0t0                 319 /dev/null
+MTLCompil 60693 marat  cwd       DIR                1,5         640                   2 /
+....................
+_____________________________________________________________________________________________
+env
+
+TERM_SESSION_ID=w0t1p0:DD6E2DE4-DF22-4499-8BD1-02266DF6BA09
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.RrxE1nBqd7/Listeners
+LC_TERMINAL_VERSION=3.3.9
+COLORFGBG=7;0
+ITERM_PROFILE=Default
+XPC_FLAGS=0x0
+PWD=/Users/Ivan
+SHELL=/bin/zsh
+__CFBundleIdentifier=com.googlecode.iterm2
+LC_CTYPE=UTF-8
+TERM_PROGRAM_VERSION=3.3.9
+.........................
+_____________________________________________________________________________________________
+echo
+
+marat@MacBook-Pro-Ivan ~ % echo hello world
+hello world
+........................
+_____________________________________________________________________________________________
+ssh
+
+usage: ssh [********************] [-B bind_interface]
+           [-b bind_address] [-c cipher_spec] [-D [bind_address:]port]
+           [-E log_file] [-e escape_char] [-F configfile] [-I pkcs11]
+           [-i identity_file] [-J [user@]host[:port]] [-L address]
+           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]
+           [-Q query_option] [-R address] [-S ctl_path] [-W host:port]
+           [-w local_tun[:remote_tun]] destination [command]
+_____________________________________________________________________________________________
+grep && pipe
+
+marat@MacBook-Pro-Ivan ~ % ls | grep 'int' gnl_ecxam.c
+static int ft_str_len(char *str)
+    int i;
+static int ft_find_char(char *str, char c)
+    int i;
+static char *ft_calloc(int len, int count)
+    int i;
+    int size;
+static char *ft_substr(char *str, start, int len)
+    int i;
+    int i;
+    int len;
+int get_next_line(char **line)
+    int pos;
+_____________________________________________________________________________________________
+sed
+
+echo "This is a test" | sed 's/test/another test/'
+This is a another test
+_____________________________________________________________________________________________
+awk
+
+marat@MacBook-Pro-Ivan ~ % awk '{print $1}' gnl_ecxam.c
+#
+#
+
+static
+{
+int
+i
+
+while
+i++;
+return
+}
+
+static
+{
+.................................
+_____________________________________________________________________________________________
+free
+
+$ free
+             total       used       free     shared    buffers     cached
+Mem:       7264256    1010952    6253304          0     371892     189088
+-/+ buffers/cache:     449972    6814284
+Swap:      8126456         28    8126428
+_____________________________________________________________________________________________
+find 
+
+find  gnl_ecxam.c
+gnl_ecxam.c
