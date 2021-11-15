@@ -1,0 +1,7 @@
+FROM ubuntu:20.04
+LABEL maintainer="ivankaz763@gmail.com"
+ENV ADMIN="ivan"
+RUN apt-get update && apt-get install -y ruby
+WORKDIR /home
+COPY ./src/hello_world.rb /home
+CMD ["ruby", "./hello_world.rb"]
