@@ -1,0 +1,9 @@
+[Unit]
+
+[Timer]
+OnBootSec=1
+OnCalendar=*:*:0/1
+Unit=write_time.service
+
+[Install]
+WantedBy=multi-user.target
