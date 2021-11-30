@@ -38,5 +38,14 @@ class TestCalculate < MiniTest::Unit::TestCase
     def test_quotient
         assert_equal 2, @calculate.quotient(6,3)
     end
-end
 
+    def test_includes
+        assert_includes([5,6,7], 6)
+    end 
+
+    def test_exception
+        result = [5,6,7].include? 8
+        assert_equal false, result
+    end
+
+end
