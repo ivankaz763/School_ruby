@@ -2,10 +2,8 @@
 
 [Timer]
 AccuracySec=1us
-OnUnitActiveSec=1s
-OnUnitInactiveSec=1s
-OnBootSec=1s
+OnCalendar=*:*:0/1
 Unit=write_time.service
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=timers.target
