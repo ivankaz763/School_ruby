@@ -1,2 +1,2 @@
 #!/bin/bash
-date >> /tmp/time_1
+date >> /tmp/timer
