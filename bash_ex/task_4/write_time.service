@@ -1,0 +1,12 @@
+[Unit]
+Description=write time every second
+
+[Service]
+Type=idle
+ExecStart=/home/ivan/Desktop/task_4/write_time.sh
+ExecStop=/home/ivan/Desktop/task_4/write_time.sh
+ExecReload=/home/ivan/Desktop/task_4/write_time.sh
+Restart=alwas
+RestartSec=1
+[Install]
+WantedBy=multi-user.target
