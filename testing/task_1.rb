@@ -16,6 +16,12 @@ class Calculate
     def quotient(dividend, divisor)
         dividend / divisor
     end
+
+    def exception_assert_rise(list_of_element, element)
+        result = list_of_element.include? element
+        raise Exception, "The element not in list." if result == false
+    end
+
 end
 
 class TestCalculate < MiniTest::Unit::TestCase
@@ -48,4 +54,12 @@ class TestCalculate < MiniTest::Unit::TestCase
         assert_equal false, result
     end
 
+    def test_exception_assert_rise
+        assert_raises Exception do
+            exception_assert_rise([5,6,7], 8)
+        end
+      end
+
 end
+
+
