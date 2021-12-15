@@ -1,65 +1,60 @@
-require "minitest/autorun"
+class My_Test_Class
+    class << self
 
-class Calculate
-    def addition(first_addend, second_addend)
-        first_addend.to_i + second_addend.to_i
-    end
+        def start_test()
+            puts yield
+        end 
 
-    def subtraction(minuend, subtrahend)
-        minuend - subtrahend
-    end
-
-    def multiply(multiplicanda, multiplier)
-        multiplicanda * multiplier
-    end
-
-    def quotient(dividend, divisor)
-        dividend / divisor
-    end
-
-    def exception_assert_rise(list_of_element, element)
-        result = list_of_element.include? element
-        raise Exception, "The element not in list." if result == false
-    end
-
-end
-
-class TestCalculate < MiniTest::Unit::TestCase
-    def setup
-        @calculate = Calculate.new
-    end
-
-    def test_suaddition
-        assert_equal 5, @calculate.addition(2,3)
-    end
-
-    def test_subtraction
-        assert_equal 1, @calculate.subtraction(3,2)
-    end
-
-    def test_multiply
-        assert_equal 6, @calculate.multiply(2,3)
-    end
-
-    def test_quotient
-        assert_equal 2, @calculate.quotient(6,3)
-    end
-
-    def test_includes
-        assert_includes([5,6,7], 6)
-    end 
-
-    def test_exception
-        result = [5,6,7].include? 8
-        assert_equal false, result
-    end
-
-    def test_exception_assert_rise
-        assert_raises Exception do
-            exception_assert_rise([5,6,7], 8)
+        def my_assert_equal(value_1, value_2)
+            if value_1 == value_2
+                return "Test Passed"
+            else 
+                return "Error"
+            end
         end
-      end
 
+        def my_assert_includes(arr, elem)
+            if arr.include?(elem)
+                return "Test Passed"
+            else 
+                return "Error"
+            end
+        end
+
+        def my_assert_execption
+            message = yield
+	    	
+	    	message == "Error" ? "Test Passed" : "Error"
+	    end
+
+    end
 end
 
+My_Test_Class.start_test() do
+    My_Test_Class.my_assert_equal(1+1 ,2)
+end
 
+My_Test_Class.start_test() do
+    My_Test_Class.my_assert_equal(1+1,11)
+end
+
+My_Test_Class.start_test() do
+    My_Test_Class.my_assert_includes([4,5,6],5)
+end
+
+My_Test_Class.start_test() do
+    My_Test_Class.my_assert_includes([4,5,6],7)
+end
+
+My_Test_Class.start_test do
+    My_Test_Class.my_assert_execption do
+        My_Test_Class.my_assert_includes([4,5,6], 7)
+    end
+end
+
+My_Test_Class.start_test do
+    My_Test_Class.my_assert_execption do
+        My_Test_Class.my_assert_includes([4,5,6], 5)
+    end
+end
+ 
