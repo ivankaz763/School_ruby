@@ -6,27 +6,20 @@ class My_Test_Class
         end 
 
         def my_assert_equal(value_1, value_2)
-            if value_1 == value_2
-                return "Test Passed"
-            else 
-                return "Error"
-            end
+            return "Test Passed" if value_1 == value_2
+            "Error"
         end
 
         def my_assert_includes(arr, elem)
-            if arr.include?(elem)
-                return "Test Passed"
-            else 
-                return "Error"
-            end
+            return "Test Passed" if arr.include?(elem)
+            "Error"
         end
 
         def my_assert_execption
             message = yield
-	    	
-	    	message == "Error" ? "Test Passed" : "Error"
-	    end
-
+		
+	    message == "Error" ? "Test Passed" : "Error"
+	end
     end
 end
 
