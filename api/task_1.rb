@@ -3,35 +3,28 @@ require 'net/http'
 
 module VK_api_client
 
-    API_VERSION = '5.131'
-
     class API
 
         attr_reader :access_token, :api_version, :timeout
   
-        def initialize(
-            access_token = nil,
-            api_version = API_VERSION,
-            timeout = 60
-        )
+        def initialize(access_token = nil, api_version = '5.131', timeout = 60)
             @access_token = access_token
             @api_version = api_version
-            @timeout = timeout
         end
   
         def method_missing(api_method, *api_params)
-            api_method = api_method.to_s.split('_').join('.')
-            api_response = request_to_api(api_method, *api_params)
-            raise VK_api_client::API::Error_api.new(api_method, api_response['error']['error_code'], api_response['error']['error_msg'], api_params) if api_response['error']
-            return api_response['response']
+            api_method_for_request = api_method.to_s.split('_').join('.')
+            api_response = request_creator(api_method_for_request, *api_params)
+            raise VK_api_client::API::Error_api.new(api_method_for_request, api_response['error']['error_code'], api_response['error']['error_msg'], api_params) if api_response['error']
+            api_response['response']
         end
 
         private
-        def request_to_api(api_method, params = {})
+        def request_creator(api_method_for_request, params = {})
             params.merge!(access_token: @access_token,  v: @api_version, https: '1')
-            url = "https://api.vk.com/method/#{api_method}"
+            url = "https://api.vk.com/method/#{api_method_for_request}"
             response_from_api = make_request(url, params)
-            return JSON.parse(response_from_api.body)
+            JSON.parse(response_from_api.body)
         end
     
         def make_request(url, params)
@@ -39,30 +32,21 @@ module VK_api_client
             use_ssl = uri.scheme == 'https'
             request = Net::HTTP::Post.new(uri)
             request.form_data = params
-
-            Net::HTTP.start(
-                uri.hostname,
-                uri.port,
-                use_ssl: use_ssl,
-                read_timeout: timeout,
-                open_timeout: timeout
-            ) do |http|
-                http.request(request)
-            end
+            Net::HTTP.start(uri.hostname, uri.port, use_ssl: use_ssl, read_timeout: timeout, open_timeout: timeout) { |http| http.request(request) }
         end
 
         class Error_api < StandardError
             attr_reader :api_method, :error_code, :error_msg, :params
     
             def initialize(api_method, error_code, error_msg, params)
-            @api_method = api_method
-            @error_code = error_code.to_i
-            @error_msg = error_msg
-            @params = params
+                @api_method = api_method
+                @error_code = error_code.to_i
+                @error_msg = error_msg
+                @params = params
             end
     
             def message
-            "When we calling '#{@api_method}' with parametrs '#{@params.inspect}' VK return error #{@error_code}: '#{@error_msg}'"
+                "When we calling '#{@api_method}' with parametrs '#{@params.inspect}' VK return error #{@error_code}: '#{@error_msg}'"
             end
         end
     end
