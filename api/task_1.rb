@@ -17,7 +17,7 @@ module VK_api_client
         def method_missing(api_method, *api_params)
             api_method_for_request = api_method.to_s.split('_').join('.')
             api_response = request_creator(api_method_for_request, *api_params)
-            raise VK_api_client::API::Error_api.new(api_method_for_request, api_response['error']['error_code'], api_response['error']['error_msg'], api_params) if api_response['error']
+            raise VK_api_client::API::Error_api.new(api_method_for_request, api_response['error']['error_code'], api_response['error']['error_msg'], api_params).message if api_response['error']
             api_response['response']
         end
 
@@ -57,4 +57,4 @@ api = VK_api_client::API.new('6df71ec91de1b546e9d8e5189cc05d84ce38f0d3cb4dad57d0
 # возвращает информацию о пользователе
 puts api.users_get(user_ids: '210700286')
 # возвращает ошибка потому, что для вызова метода "getFollowers" нужна авторизация не по сообществу, а по странице
-api.users_gasdsetFollowers(user_ids: '210700286')
+api.users_getFollowers(user_ids: '210700286')
